@@ -1,26 +1,43 @@
-from classes_jeu import *
-from tkinter import *
-def creer_perso(fen):
-    def create(nb_perso):
-        nb_perso=int(nb_perso.get())
-        lbl_nom = Label()
-        lbl_espece = Label()
-        lbl_equipe = Label()
-        entry_nom = Entry()
-        entry_espece = Entry()
-        entry_equipe = Entry()
-        for perso in range(nb_perso):
-            lbl_nom.config(text="nom du joueur {0}".format(perso+1))
-            lbl_nom.pack()
-            lbl_espece.config(text="espece du joueur {0}".format(perso + 1))
-            lbl_espece.pack()
-            lbl_equipe.config(text="equipe du joueur {0}".format(perso+1))
-            lbl_equipe.pack()
-            perso = Personnage(nom, espece, equipe)
-            print(vars(perso))
-    lbl_nb_de_perso = Label(text="nombre de joueur")
-    lbl_nb_de_perso.pack()
-    nb_perso = Entry()
-    nb_perso.pack()
-    btn_nb = Button(text="creer les joueur",command=lambda : create(nb_perso))
-    btn_nb.pack()
+class Noeud:
+    """un noeud d'un arbre binaire"""
+    def __init__(self,g,v,d):
+        self.gauche = g
+        self.valeur = v
+        self.droite = d
+
+    def taille(self):
+        if self.droite is None and self.gauche is None:
+            return 1
+        elif self.droite is None:
+            return 1 + self.gauche.taille()
+        elif self.gauche is None:
+            return 1+self.droite.taille()
+        return 1+self.gauche.taille()+self.droite.taille()
+
+    def hauteur(self):
+        if self.droite is None and self.gauche is None:
+            return 1
+        elif self.droite is None:
+            return 1 + self.gauche.hauteur()
+        elif self.gauche is None:
+            return 1+self.droite.hauteur()
+        return 1+max(self.gauche.hauteur(),self.droite.hauteur())
+
+    def parcours_infixe(self):
+        if self is None:
+            return
+        if self.gauche != None:
+            self.gauche.parcours_infixe()
+        print(self.valeur)
+        if self.droite!=None:
+            self.droite.parcours_infixe()
+
+    def afficher(self):
+        if self is None:
+            return
+        print("(",end="")
+        self.gauche.afficher()
+        print(self.valeur)
+        self.droite.afficher()
+        print(")", end="")
+
